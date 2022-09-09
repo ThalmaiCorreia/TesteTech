@@ -4,11 +4,9 @@ public class UsuarioDTO {
 
     private Long id;
 
-    private String nome;
+    private String user;
 
-    private String usuario;
-
-    private String senha;
+    private String password;
 
     private String token;
 
@@ -20,28 +18,20 @@ public class UsuarioDTO {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getUser() {
+        return user;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setUser(String user) {
+        this.user = user;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getToken() {

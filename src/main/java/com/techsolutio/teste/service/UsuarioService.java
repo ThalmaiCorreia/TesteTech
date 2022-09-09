@@ -7,6 +7,8 @@ import com.techsolutio.teste.model.Usuario;
 import com.techsolutio.teste.model.UsuarioDTO;
 import com.techsolutio.teste.repository.UsuarioRepository;
 import org.apache.commons.codec.binary.Base64;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,42 +21,56 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    public static final Logger LOGGER = LoggerFactory.getLogger(UsuarioService.class);
+
     //cadastro de usuario
     public Optional<Usuario> cadastrarUsuario(Usuario usuario)	{
-        if (usuarioRepository.findByUsuario(usuario.getUsuario()).isPresent()) //isPresent -> verifica usuário cadastrado, se estiver, não cadastra
-            return Optional.empty();
+      try{
+          if (usuarioRepository.findByUser(usuario.getUser()).isPresent()) //isPresent -> verifica usuário cadastrado, se estiver, não cadastra
+               return Optional.empty();
+          LOGGER.error("Usuario já existe.");
 
-        usuario.setSenha(criptografarSenha(usuario.getSenha()));
-
+          usuario.setPassword(criptografarSenha(usuario.getPassword()));
+      }
+      catch (Exception ex){
+          LOGGER.error("Erro ao cadastrar usuario.");
+      }
         return Optional.of(usuarioRepository.save(usuario));
     }
 
     //atualização de usuário
     public Optional<Usuario> atualizarUsuario(Usuario usuario)
     {
-        if (usuarioRepository.findById(usuario.getId()).isPresent())
-        {
-            usuario.setSenha(criptografarSenha(usuario.getSenha()));
+        try{
+            if (usuarioRepository.findById(usuario.getId()).isPresent())
+            {
+                usuario.setPassword(criptografarSenha(usuario.getPassword()));
+            }
+            else{
+                LOGGER.error("Usuario não  existe.");
+                return Optional.empty();
 
-            return Optional.of(usuarioRepository.save(usuario));
+            }
+
         }
-
-        return Optional.empty(); //empity -> retorna uma instancia optional vazia, caso o usuário não seja encontrado
+        catch (Exception ex){
+            LOGGER.error("Erro ao atualizar usuario.");
+        }
+        return Optional.of(usuarioRepository.save(usuario));
     }
 
     //autenticação do usuario
     public Optional<UsuarioDTO> autenticarUsuario(Optional<UsuarioDTO> usuarioDTO)
     {
-        Optional<Usuario> usuario = usuarioRepository.findByUsuario(usuarioDTO.get().getUsuario());
+        Optional<Usuario> usuario = usuarioRepository.findByUser(usuarioDTO.get().getUser());
 
         if(usuario.isPresent()) //se o usuario existem
         {
-            if (compararSenhas(usuarioDTO.get().getSenha(), usuario.get().getSenha()))
+            if (compararSenhas(usuarioDTO.get().getPassword(), usuario.get().getPassword()))
             {
                 usuarioDTO.get().setId(usuario.get().getId());
-                usuarioDTO.get().setNome(usuario.get().getNome());
-                usuarioDTO.get().setToken(gerarBasicToken(usuarioDTO.get().getUsuario(), usuarioDTO.get().getSenha()));
-                usuarioDTO.get().setSenha(usuario.get().getSenha());
+                usuarioDTO.get().setToken(gerarBasicToken(usuarioDTO.get().getUser(), usuarioDTO.get().getPassword()));
+                usuarioDTO.get().setPassword(usuario.get().getPassword());
                 /*se as senhas forem uguais(a senha e a criptografia) atualiza o objeto usuarioLogin com os dados
                  * recuperados da DB e insere o Token gerado através do método gerarBasicToken, podendo exibir o nome e a foto
                  * do usuario no front*/

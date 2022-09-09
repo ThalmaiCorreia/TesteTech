@@ -2,12 +2,7 @@ package com.techsolutio.teste.model;
 
 import java.math.BigDecimal;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -23,7 +18,9 @@ public class Produto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+
     @NotBlank(message = "O atributo nome é obrigatório, e não pode conter espaços em branco!")
+    @Column(name="nome")
     private String nome;
 
     @Positive(message = "O atributo preço deve ser um valor maior que zero")

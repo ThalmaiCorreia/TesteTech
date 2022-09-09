@@ -18,16 +18,13 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "O atributo Nome é Obrigatório!")
-    private String nome;
-
     @NotNull(message = "O atributo Usuário é Obrigatório!")
     @Email(message = "O atributo Usuário deve ser um email válido!")
-    private String usuario;
+    private String user;
 
     @NotBlank(message = "O atributo Senha é Obrigatório!")
     @Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
-    private String senha;
+    private String password;
 
 
     public Long getId() {
@@ -38,28 +35,20 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getUser() {
+        return user;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setUser(String user) {
+        this.user = user;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getPassword() {
+        return password;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
 }
