@@ -29,12 +29,6 @@ public class Produto {
     @Positive(message = "O atributo preço deve ser um valor maior que zero")
     private BigDecimal preco;
 
-
-    @NotNull(message = "O atributo descrição é obrigatório, e não pode conter espaços em branco!")
-    @Size(min = 10, message = "O atributo descrição deve conter no mínimo 10 caracteres")
-    private String descricao;
-
-
     @ManyToOne
     @JsonIgnoreProperties("produto")
     private Fornecedor fornecedor;
@@ -62,15 +56,6 @@ public class Produto {
     public void setPreco(BigDecimal preco) {
         this.preco = preco;
     }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
-
 
     public Fornecedor getFornecedor() {
         return fornecedor;
