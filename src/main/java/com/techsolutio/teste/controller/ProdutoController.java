@@ -34,17 +34,6 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoRepository.findAll());
     }
 
-    @GetMapping("/{fornecedor}")
-    public ResponseEntity<Produto> getByFornecedor(String fornecedor){
-        return produtoRepository.findByFornecedor(fornecedor)
-                .map(resposta -> ResponseEntity.ok(resposta))
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @GetMapping("/{nome}")
-    public ResponseEntity<List<Produto>> getByNome(@PathVariable String nome) {
-        return ResponseEntity.ok(produtoRepository.findAllByNomeContainingIgnoreCase(nome));
-    }
 
     @PostMapping
     public ResponseEntity<Produto> postProduto (@Valid @RequestBody Produto produto){
