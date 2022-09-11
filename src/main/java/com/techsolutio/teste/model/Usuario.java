@@ -1,5 +1,7 @@
 package com.techsolutio.teste.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +20,7 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Schema(example = "email@email.com")
     @NotNull(message = "O atributo Usuário é Obrigatório!")
     @Email(message = "O atributo Usuário deve ser um email válido!")
     private String user;
