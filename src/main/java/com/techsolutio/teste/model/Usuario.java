@@ -29,6 +29,9 @@ public class Usuario {
     @Size(min = 8, message = "A Senha deve ter no mínimo 8 caracteres")
     private String password;
 
+    public Usuario(long l, String s, String rootroot) {
+    }
+
 
     public Long getId() {
         return id;
